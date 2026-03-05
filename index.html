@@ -3,55 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Sistem FAT GPS</title>
+    <title>Sistem FAT GPS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Definisi Palet Warna Finance */
+            --primary-bg: #f0f4f8; /* Abu-abu kebiruan sangat muda */
+            --container-bg: #ffffff;
+            --text-main: #1a202c; /* Abu-abu gelap (hampir hitam) */
+            --text-muted: #718096;
+            
+            /* Warna Aksen Tombol */
+            --color-acc: #1e40af; /* Royal Blue (Profesional) */
+            --color-acc-hover: #1d4ed8;
+            
+            --color-inv: #059669; /* Emerald Green (Uang/Pertumbuhan) */
+            --color-inv-hover: #10b981;
+            
+            --color-trc: #475569; /* Slate Gray (Stabilitas/Produktivitas) */
+            --color-trc-hover: #64748b;
+        }
+
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f7f6; 
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            /* Latar belakang gradient lembut */
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4f8 100%);
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
             margin: 0; 
+            color: var(--text-main);
         }
+
         .container { 
             text-align: center; 
-            background: white; 
-            padding: 40px; 
-            border-radius: 15px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            background: var(--container-bg); 
+            padding: 50px 40px; 
+            border-radius: 20px; 
+            /* Bayangan lebih halus dan menyebar */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
             width: 100%;
-            max-width: 400px; /* Membatasi lebar agar tidak terlalu melar di layar lebar */
+            max-width: 420px;
+            border: 1px solid #e1e8ed; /* Border tipis pada container */
         }
-        h1 { color: #333; margin-bottom: 30px; }
-        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+
+        h1 { 
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--text-main); 
+            margin-bottom: 10px; 
+            margin-top: 0;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 35px;
+            display: block;
+        }
+
+        .menu-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 18px; 
+        }
         
-        /* Gaya Dasar Tombol */
+        /* Gaya Dasar Tombol - Lebih Elegan */
         .btn { 
-            display: block; 
-            padding: 15px 30px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 30px; 
             color: white; 
             text-decoration: none; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            transition: 0.3s; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            font-size: 16px;
+            transition: all 0.2s ease-in-out; 
             text-align: center;
+            /* Efek kedalaman sedikit */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-bottom: 3px solid rgba(0,0,0,0.2); /* Border bawah untuk efek 3D klik */
         }
-        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
-        /* Warna spesifik tiap menu */
-        .btn-acc { background-color: #0070f3; } /* Biru */
-        .btn-inv { background-color: #10b981; } /* Hijau */
-        .btn-trc { background-color: #f59e0b; } /* Oranye/Kuning */
+        /* Spasi antara ikon emoji dan teks */
+        .btn .icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Warna spesifik tiap menu (Finance Theme) */
+        .btn-acc { 
+            background-color: var(--color-acc); 
+        }
+        .btn-acc:hover { background-color: var(--color-acc-hover); }
+
+        .btn-inv { 
+            background-color: var(--color-inv); 
+        } 
+        .btn-inv:hover { background-color: var(--color-inv-hover); }
+
+        .btn-trc { 
+            background-color: var(--color-trc); 
+        } 
+        .btn-trc:hover { background-color: var(--color-trc-hover); }
+
+        /* Footer kecil opsional */
+        .footer-text {
+            margin-top: 40px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Pilih Sistem</h1>
+        <h1>Sistem FAT GPS</h1>
+        <span class="subtitle">Silakan pilih untuk melanjutkan</span>
+        
         <div class="menu-grid">
-            <a href="acc.html" class="btn btn-acc">💰 Gamezone ACC</a>
-            <a href="inv.html" class="btn btn-inv">📦 Inventory FNB</a>
-            <a href="trc.html" class="btn btn-trc">💻 Tracking Job</a>
+            <a href="acc.html" class="btn btn-acc">
+                <span class="icon">📊</span> Gamezone ACC
+            </a>
+            <a href="inv.html" class="btn btn-inv">
+                <span class="icon">🏢</span> Inventory FnB
+            </a>
+            <a href="trc.html" class="btn btn-trc">
+                <span class="icon">📝</span> Tracking Job
+            </a>
+        </div>
+
+        <div class="footer-text">
+            Green Pramuka Square &copy; 2026
         </div>
     </div>
 </body>
