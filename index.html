@@ -4,144 +4,225 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem FAT GPS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Definisi Palet Warna Finance */
-            --primary-bg: #f0f4f8; /* Abu-abu kebiruan sangat muda */
-            --container-bg: #ffffff;
-            --text-main: #1a202c; /* Abu-abu gelap (hampir hitam) */
-            --text-muted: #718096;
+            /* Palette Terang (Light Mode) */
+            --bg-color: #f1f5f9; /* Slate 100 - Abu-abu sangat terang */
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-main: #0f172a; /* Slate 900 - Gelap pekat */
+            --text-muted: #64748b; /* Slate 500 - Abu-abu teks sekunder */
             
-            /* Warna Aksen Tombol */
-            --color-acc: #1e40af; /* Royal Blue (Profesional) */
-            --color-acc-hover: #1d4ed8;
-            
-            --color-inv: #059669; /* Emerald Green (Uang/Pertumbuhan) */
-            --color-inv-hover: #10b981;
-            
-            --color-trc: #475569; /* Slate Gray (Stabilitas/Produktivitas) */
-            --color-trc-hover: #64748b;
+            /* Warna Aksen Gradien untuk Ikon */
+            --grad-acc: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            --grad-inv: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+            --grad-trc: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+            --grad-psm: linear-gradient(135deg, #d946ef 0%, #8b5cf6 100%); /* Pink to Purple */
         }
 
         body { 
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            /* Latar belakang gradient lembut */
-            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4f8 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-color);
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            min-height: 100vh; 
             margin: 0; 
             color: var(--text-main);
+            overflow: hidden;
+            position: relative;
         }
 
+        /* Elemen Dekorasi Background (Glowing Pastel Orbs) */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        .orb-1 {
+            width: 400px; 
+            height: 400px;
+            background: #93c5fd; /* Soft Blue */
+            top: -100px; 
+            left: -150px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 350px; 
+            height: 350px;
+            background: #fbcfe8; /* Soft Pink */
+            bottom: -50px; 
+            right: -100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        /* Glassmorphism Container Light Mode */
         .container { 
+            position: relative;
+            z-index: 1;
             text-align: center; 
-            background: var(--container-bg); 
-            padding: 50px 40px; 
-            border-radius: 20px; 
-            /* Bayangan lebih halus dan menyebar */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 45px 35px; 
+            border-radius: 30px; 
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05); /* Bayangan lembut */
             width: 100%;
             max-width: 420px;
-            border: 1px solid #e1e8ed; /* Border tipis pada container */
+            border: 1px solid var(--glass-border); 
+            animation: fadeUp 0.8s ease-out;
         }
 
         h1 { 
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--text-main); 
-            margin-bottom: 10px; 
+            font-weight: 800;
+            font-size: 28px;
+            margin-bottom: 6px; 
             margin-top: 0;
+            color: #1e293b;
+            letter-spacing: -0.5px;
         }
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 15px;
             margin-bottom: 35px;
             display: block;
+            font-weight: 500;
         }
 
         .menu-grid { 
             display: grid; 
             grid-template-columns: 1fr; 
-            gap: 18px; 
+            gap: 14px; 
         }
         
-        /* Gaya Dasar Tombol - Lebih Elegan */
+        /* Gaya Tombol Light Mode */
         .btn { 
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 16px 30px; 
-            color: white; 
+            padding: 12px 18px; 
+            color: var(--text-main); 
             text-decoration: none; 
-            border-radius: 10px; 
-            font-weight: 600; 
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 20px; 
+            font-weight: 700; 
             font-size: 16px;
-            transition: all 0.2s ease-in-out; 
-            text-align: center;
-            /* Efek kedalaman sedikit */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-bottom: 3px solid rgba(0,0,0,0.2); /* Border bawah untuk efek 3D klik */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            position: relative;
         }
 
-        /* Spasi antara ikon emoji dan teks */
-        .btn .icon {
-            margin-right: 12px;
+        .btn .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            margin-right: 16px;
             font-size: 18px;
+            color: white; /* Emoji tidak terpengaruh ini, tapi ikon SVG iya */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
 
+        /* Pewarnaan Khusus Ikon */
+        .btn-acc .icon-wrapper { background: var(--grad-acc); }
+        .btn-inv .icon-wrapper { background: var(--grad-inv); }
+        .btn-trc .icon-wrapper { background: var(--grad-trc); }
+        .btn-psm .icon-wrapper { background: var(--grad-psm); }
+
+        .btn-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .btn-text span:last-child {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 3px;
+        }
+
+        /* Interaksi Hover Light Mode */
         .btn:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-4px); 
+            background: #ffffff;
+            box-shadow: 0 12px 25px -5px rgba(15, 23, 42, 0.08);
+        }
+
+        .btn:hover .icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .btn:active {
-            transform: translateY(1px);
-            border-bottom: 1px solid rgba(0,0,0,0.2);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transform: translateY(0);
         }
 
-        /* Warna spesifik tiap menu (Finance Theme) */
-        .btn-acc { 
-            background-color: var(--color-acc); 
-        }
-        .btn-acc:hover { background-color: var(--color-acc-hover); }
-
-        .btn-inv { 
-            background-color: var(--color-inv); 
-        } 
-        .btn-inv:hover { background-color: var(--color-inv-hover); }
-
-        .btn-trc { 
-            background-color: var(--color-trc); 
-        } 
-        .btn-trc:hover { background-color: var(--color-trc-hover); }
-
-        /* Footer kecil opsional */
         .footer-text {
-            margin-top: 40px;
-            font-size: 12px;
+            margin-top: 35px;
+            font-size: 13px;
             color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
+    <!-- Latar Belakang Gradien Melayang -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
     <div class="container">
         <h1>Sistem FAT GPS</h1>
-        <span class="subtitle">Silakan pilih untuk melanjutkan</span>
+        <span class="subtitle">Pilih modul untuk melanjutkan 👋</span>
         
         <div class="menu-grid">
             <a href="acc.html" class="btn btn-acc">
-                <span class="icon">📊</span> Gamezone ACC
+                <div class="icon-wrapper">📊</div>
+                <div class="btn-text">
+                    <span>Gamezone ACC</span>
+                    <span>Kelola keuangan & laporan</span>
+                </div>
             </a>
             <a href="inv.html" class="btn btn-inv">
-                <span class="icon">🏢</span> Inventory FnB
+                <div class="icon-wrapper">🍔</div>
+                <div class="btn-text">
+                    <span>Inventory FnB</span>
+                    <span>Stok minuman & makanan</span>
+                </div>
             </a>
             <a href="trc.html" class="btn btn-trc">
-                <span class="icon">📝</span> Job Tracking
+                <div class="icon-wrapper">🎯</div>
+                <div class="btn-text">
+                    <span>Job Tracking</span>
+                    <span>Pantau status & tugas</span>
+                </div>
+            </a>
+            <!-- Modul Baru Ditambahkan di Sini -->
+            <a href="psm.html" class="btn btn-psm">
+                <div class="icon-wrapper">📂</div>
+                <div class="btn-text">
+                    <span>Data PSM</span>
+                    <span>kumpulan kontrak/perjanjian</span>
+                </div>
             </a>
         </div>
 
@@ -151,4 +232,3 @@
     </div>
 </body>
 </html>
-
