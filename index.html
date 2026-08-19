@@ -3,232 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem FAT GPS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Sistem FAT GPS </title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Palette Terang (Light Mode) */
-            --bg-color: #f1f5f9; /* Slate 100 - Abu-abu sangat terang */
-            --glass-bg: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --text-main: #0f172a; /* Slate 900 - Gelap pekat */
-            --text-muted: #64748b; /* Slate 500 - Abu-abu teks sekunder */
+            --bg-color: #f8fafc; 
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --text-main: #0f172a; 
+            --text-muted: #64748b; 
             
-            /* Warna Aksen Gradien untuk Ikon */
             --grad-acc: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
             --grad-inv: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
             --grad-trc: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
-            --grad-psm: linear-gradient(135deg, #d946ef 0%, #8b5cf6 100%); /* Pink to Purple */
+            --grad-psm: linear-gradient(135deg, #d946ef 0%, #8b5cf6 100%);
+            --grad-lamecca: linear-gradient(135deg, #ff6b6b 0%, #ef4444 100%);
         }
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--bg-color);
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
             margin: 0; 
             color: var(--text-main);
-            overflow: hidden;
+            /* Hapus justify-content center agar tidak diam di tengah */
+            overflow-x: hidden;
             position: relative;
         }
 
-        /* Elemen Dekorasi Background (Glowing Pastel Orbs) */
+        /* Latar Belakang Estetik (Ukurannya dibesarkan untuk layar penuh) */
         .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(90px);
+            filter: blur(100px);
             z-index: 0;
-            opacity: 0.7;
+            opacity: 0.5;
         }
 
-        .orb-1 {
-            width: 400px; 
-            height: 400px;
-            background: #93c5fd; /* Soft Blue */
-            top: -100px; 
-            left: -150px;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .orb-2 {
-            width: 350px; 
-            height: 350px;
-            background: #fbcfe8; /* Soft Pink */
-            bottom: -50px; 
-            right: -100px;
-            animation: float 10s ease-in-out infinite reverse;
-        }
-
-        /* Glassmorphism Container Light Mode */
-        .container { 
-            position: relative;
-            z-index: 1;
-            text-align: center; 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            padding: 45px 35px; 
-            border-radius: 30px; 
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05); /* Bayangan lembut */
-            width: 100%;
-            max-width: 420px;
-            border: 1px solid var(--glass-border); 
-            animation: fadeUp 0.8s ease-out;
-        }
-
-        h1 { 
-            font-weight: 800;
-            font-size: 28px;
-            margin-bottom: 6px; 
-            margin-top: 0;
-            color: #1e293b;
-            letter-spacing: -0.5px;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 15px;
-            margin-bottom: 35px;
-            display: block;
-            font-weight: 500;
-        }
-
-        .menu-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 14px; 
-        }
-        
-        /* Gaya Tombol Light Mode */
-        .btn { 
-            display: flex;
-            align-items: center;
-            padding: 12px 18px; 
-            color: var(--text-main); 
-            text-decoration: none; 
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 20px; 
-            font-weight: 700; 
-            font-size: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            position: relative;
-        }
-
-        .btn .icon-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            margin-right: 16px;
-            font-size: 18px;
-            color: white; /* Emoji tidak terpengaruh ini, tapi ikon SVG iya */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        /* Pewarnaan Khusus Ikon */
-        .btn-acc .icon-wrapper { background: var(--grad-acc); }
-        .btn-inv .icon-wrapper { background: var(--grad-inv); }
-        .btn-trc .icon-wrapper { background: var(--grad-trc); }
-        .btn-psm .icon-wrapper { background: var(--grad-psm); }
-
-        .btn-text {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        .btn-text span:last-child {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-top: 3px;
-        }
-
-        /* Interaksi Hover Light Mode */
-        .btn:hover { 
-            transform: translateY(-4px); 
-            background: #ffffff;
-            box-shadow: 0 12px 25px -5px rgba(15, 23, 42, 0.08);
-        }
-
-        .btn:hover .icon-wrapper {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .footer-text {
-            margin-top: 35px;
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
+        .orb-1 { width: 600px; height: 600px; background: #bae6fd; top: -150px; left: -100px; animation: float 12s infinite; }
+        .orb-2 { width: 500px; height: 500px; background: #e9d5ff; bottom: -100px; right: 10%; animation: float 15s infinite reverse; }
+        .orb-3 { width: 400px; height: 400px; background: #fef08a; top: 20%; right: -50px; animation: float 10s infinite; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* Container Lebar Penuh (Max 1400px agar rapi di monitor besar) */
+        .dashboard-container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 1400px; /* Ukuran standar aplikasi desktop */
+            margin: 40px auto; /* Memberi jarak dari atas dan tengah secara horizontal */
+            animation: fadeUp 0.8s ease-out;
         }
 
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Header & Search dibagi kiri dan kanan di layar besar */
+        .top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+
+        .header h1 { 
+            font-weight: 800;
+            font-size: 36px;
+            margin: 0 0 8px 0;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Search Bar */
+        .search-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 14px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 350px; /* Lebar search bar dibatasi agar elegan */
+        }
+
+        .search-box:focus-within {
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 30px -5px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .search-box input {
+            background: none; border: none; color: var(--text-main); font-family: inherit; font-size: 15px; font-weight: 500; width: 100%; outline: none;
+        }
+
+        /* GRID PINTAR (AUTO-FIT) - Rahasia agar tidak memanjang ke bawah */
+        .uniform-grid { 
+            display: grid; 
+            /* Ini kuncinya: otomatis buat kolom sebanyak mungkin dengan lebar minimal 240px */
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+            gap: 24px; 
+        }
+        
+        .menu-card { 
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 24px; 
+            text-decoration: none; 
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; 
+            transition: all 0.3s ease; 
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03);
+            position: relative;
+        }
+
+        .menu-card:hover { 
+            transform: translateY(-6px); 
+            background: #ffffff;
+            box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
+        }
+
+        .icon-wrapper {
+            display: flex; align-items: center; justify-content: center;
+            width: 54px; height: 54px; border-radius: 18px; margin-bottom: 20px; font-size: 26px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08); transition: transform 0.3s ease;
+        }
+
+        .card-acc .icon-wrapper { background: var(--grad-acc); }
+        .card-inv .icon-wrapper { background: var(--grad-inv); }
+        .card-trc .icon-wrapper { background: var(--grad-trc); }
+        .card-psm .icon-wrapper { background: var(--grad-psm); }
+        .card-lamecca .icon-wrapper { background: var(--grad-lamecca); }
+
+        .menu-card:hover .icon-wrapper { transform: scale(1.1) rotate(5deg); }
+
+        .card-title { font-weight: 700; font-size: 17px; margin-bottom: 8px; line-height: 1.2; }
+        .card-desc { color: var(--text-muted); font-size: 13px; font-weight: 500; line-height: 1.5; }
     </style>
 </head>
 <body>
-    <!-- Latar Belakang Gradien Melayang -->
+
+    <!-- Bola-bola warna melayang -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-    <div class="container">
-        <h1>Sistem FAT GPS</h1>
-        <span class="subtitle">Pilih modul untuk melanjutkan 👋</span>
+    <div class="dashboard-container">
         
-        <div class="menu-grid">
-            <a href="acc.html" class="btn btn-acc">
-                <div class="icon-wrapper">📊</div>
-                <div class="btn-text">
-                    <span>Gamezone ACC</span>
-                    <span>Kelola keuangan & laporan</span>
-                </div>
-            </a>
-            <a href="inv.html" class="btn btn-inv">
-                <div class="icon-wrapper">🍔</div>
-                <div class="btn-text">
-                    <span>Inventory FnB</span>
-                    <span>Stok minuman & makanan</span>
-                </div>
-            </a>
-            <a href="trc.html" class="btn btn-trc">
-                <div class="icon-wrapper">🎯</div>
-                <div class="btn-text">
-                    <span>Job Tracking</span>
-                    <span>Pantau status & tugas</span>
-                </div>
-            </a>
-            <!-- Modul Baru Ditambahkan di Sini -->
-            <a href="psm.html" class="btn btn-psm">
-                <div class="icon-wrapper">📂</div>
-                <div class="btn-text">
-                    <span>Data PSM</span>
-                    <span>kumpulan kontrak/perjanjian</span>
-                </div>
-            </a>
-        </div>
+        <!-- Bagian Atas: Judul di kiri, Search Bar di Kanan -->
+        <div class="top-bar">
+            <div class="header">
+                <h1>FAT GPS System.</h1>
+                <div class="subtitle">Welcome back, 👋</div>
+            </div>
 
-        <div class="footer-text">
-            Green Pramuka Square &copy; 2026
+            <div class="search-box">
+                <span style="margin-right: 12px; font-size: 18px;">🔍</span>
+                <input type="text" id="searchInput" placeholder="Cari modul atau menu...">
+            </div>
+        </div>
+        
+        <!-- Grid Pintar Otomatis -->
+        <div class="uniform-grid" id="menuContainer">
+            
+            <a href="acc.html" class="menu-card card-acc">
+                <div class="icon-wrapper">📊</div>
+                <div class="card-title">Gamezone ACC</div>
+                <div class="card-desc">Kelola keuangan & laporan operasional</div>
+            </a>
+
+            <a href="inv.html" class="menu-card card-inv">
+                <div class="icon-wrapper">🍔</div>
+                <div class="card-title">Inventory FnB</div>
+                <div class="card-desc">Pantau stok makanan & minuman</div>
+            </a>
+
+            <a href="trc.html" class="menu-card card-trc">
+                <div class="icon-wrapper">🎯</div>
+                <div class="card-title">Job Tracking</div>
+                <div class="card-desc">Pantau status & penyelesaian tugas</div>
+            </a>
+
+            <a href="psm.html" class="menu-card card-psm">
+                <div class="icon-wrapper">📂</div>
+                <div class="card-title">Data PSM</div>
+                <div class="card-desc">Kumpulan arsip kontrak & perjanjian</div>
+            </a>
+
+            <a href="https://budget-gps.vercel.app/" target="_blank" class="menu-card card-budget">
+                <div class="icon-wrapper">📉</div>
+                <div class="card-title">Budget GPS</div>
+                <div class="card-desc">Budget Allocation & Realization Report</div>
+            </a>
+            
+            <!-- Jika kamu tambah menu lagi di sini, ia akan otomatis mengisi ke samping kanan (jika layarnya muat) -->
+
         </div>
     </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const menuCards = document.querySelectorAll('.menu-card');
+
+        searchInput.addEventListener('input', function() {
+            const keyword = this.value.toLowerCase();
+            menuCards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+                if (title.includes(keyword) || desc.includes(keyword)) {
+                    card.style.display = ''; 
+                } else {
+                    card.style.display = 'none'; 
+                }
+            });
+        });
+    </script>
 </body>
 </html>
